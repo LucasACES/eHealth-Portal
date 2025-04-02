@@ -29,7 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.15.59']
 
 
 # Application definition
@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'apps.agendamento',
     'apps.laudos',
     'apps.pacientes',
-    'apps.usuarios'
+    'apps.usuarios',
+
 ]
 
 MIDDLEWARE = [
@@ -129,3 +130,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
