@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Laudos de {{ paciente.nome }}{% endblock %}
+{% block content %}
+
+<h2>Laudos de {{ paciente.nome }}</h2>
+
+<table class="table table-hover mt-3">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th>Código de Acesso</th>
+      <th>Arquivo</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for laudo in laudos %}
+    <tr>
+      <td>{{ laudo.enviado_em|date:"d/m/Y H:i" }}</td>
+      <td>{{ laudo.codigo_acesso }}</td>
+      <td>
+        {% if laudo.arquivo %}
+        <a href="{{ laudo.arquivo.url }}" target="_blank" class="btn btn-sm btn-success">Abrir PDF</a>
+        {% else %}
+        <span class="text-muted">Sem arquivo</span>
+        {% endif %}
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="3" class="text-center text-muted">Nenhum laudo encontrado.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'lista_pacientes' %}" class="btn btn-outline-secondary mt-3">← Voltar para Pacientes</a>
+
+{% endblock %}

@@ -1,5 +1,8 @@
 from django.http import JsonResponse, Http404
 from .models import Laudo
+from django.shortcuts import render, get_object_or_404
+from apps.pacientes.models import Paciente
+from django.contrib.auth.decorators import login_required
 
 def iti_validador(request):
     secret_code = request.GET.get('_secretCode')
@@ -30,3 +33,13 @@ def iti_validador(request):
         }
     }
     return JsonResponse(response)
+
+@login_required
+def laudos_paciente(request, paciente_id):
+    paciente = get_object_or_404(Paciente, id=paciente_id)
+    laudos = Laudo.objects.filter(paciente=paciente).order_by('-enviado_em')
+    return render(request, 'laudos/laudos_paciente.html', {'paciente': paciente, 'laudos': laudos})
+
+@login_required
+def lista_laudos(request):
+    return render(request, 'laudos/lista.html')

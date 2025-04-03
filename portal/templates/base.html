@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Portal eHealth{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { overflow-x: hidden; }
+
+    #main-wrapper {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 220px;
+      min-height: 100vh;
+      background-color: #f8f9fa;
+      padding-top: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+      display: block;
+      padding: 10px 20px;
+    }
+
+    .sidebar a:hover {
+      background-color: #e9ecef;
+    }
+
+    .sidebar-collapsed .sidebar {
+      width: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .sidebar-collapsed .content-area {
+      width: 100%;
+      padding-left: 1rem !important; /* ou 16px */
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary px-4">
+  <button class="btn btn-light me-3" id="menu-toggle">☰</button>
+  <span class="navbar-brand">eHealth</span>
+  <div class="ms-auto">
+    {% if user.is_authenticated %}
+    <div class="dropdown">
+      <a class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">{{ user.username }}</a>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><span class="dropdown-item-text">{{ user.email }}</span></li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <form method="post" action="{% url 'logout' %}" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="dropdown-item text-danger">Sair</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+  </div>
+</nav>
+
+<!-- Layout principal -->
+<div id="main-wrapper">
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h5 class="px-3">Menu</h5>
+
+    <a href="{% url 'dashboard' %}"
+       class="d-block px-3 py-2 {% if request.path == '/dashboard/' %}bg-primary text-white rounded-start{% else %}text-dark{% endif %}">
+      🏠 Dashboard
+    </a>
+
+    <a href="{% url 'lista_pacientes' %}"
+      class="d-block px-3 py-2 {% if request.path == '/pacientes/' %}bg-primary text-white rounded-start{% else %}text-dark{% endif %}">
+      👥 Pacientes
+    </a>
+
+    <a href="{% url 'novo_paciente' %}"
+       class="d-block px-3 py-2 {% if request.path == '/pacientes/novo/' %}bg-primary text-white rounded-start{% else %}text-dark{% endif %}">
+      ➕ Novo Paciente
+    </a>
+
+    <a href="{% url 'lista_laudos' %}"
+       class="d-block px-3 py-2 {% if '/laudo/listar' in request.path  %}bg-primary text-white rounded-start{% else %}text-dark{% endif %}">
+      📋 Laudos
+    </a>
+
+    {% if user.groups.first.name == 'supervisor' %}
+    <a href="{% url 'lista_usuarios' %}"
+       class="d-block px-3 py-2 {% if '/usuarios' in request.path %}bg-primary text-white rounded-start{% else %}text-dark{% endif %}">
+      👤 Usuários
+    </a>
+    {% endif %}
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="flex-grow-1 content-area p-4">
+    {% block content %}{% endblock %}
+    <footer class="text-center text-muted mt-5">
+      <p>&copy; {{ now|date:"Y" }} - eHealth Portal</p>
+    </footer>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const toggleButton = document.getElementById('menu-toggle');
+  const wrapper = document.getElementById('main-wrapper');
+
+  toggleButton.addEventListener('click', () => {
+    wrapper.classList.toggle('sidebar-collapsed');
+  });
+</script>
+
+</body>
+</html>

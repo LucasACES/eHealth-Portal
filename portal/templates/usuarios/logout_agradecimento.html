@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Até logo! 👋</title>
+  <meta http-equiv="refresh" content="5;url={% url 'login' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; height: 100vh; text-align: center; background: #fdfdfd; }
+    .box { max-width: 500px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1 class="text-danger">😢 Você saiu do sistema...</h1>
+    <p class="lead">...mas já estamos com saudades! 💔</p>
+    <p class="text-muted">Redirecionando para o login em 5 segundos...</p>
+    <p><a href="{% url 'login' %}" class="btn btn-outline-primary">Voltar agora</a></p>
+  </div>
+</body>
+</html>
