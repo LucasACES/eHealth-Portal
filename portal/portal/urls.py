@@ -2,11 +2,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import views as auth_views
-from apps.usuarios.views import acesso_negado
-from apps.usuarios.views import dashboard, lista_usuarios
-from apps.usuarios.views import logout_agradecimento
+from apps.usuarios.views import dashboard, lista_usuarios, logout_agradecimento, acesso_negado, home_redirect
 from apps.pacientes.views import lista_pacientes, novo_paciente
 from apps.laudos.views import laudos_paciente, lista_laudos
 
@@ -24,6 +21,7 @@ urlpatterns = [
     path('logout-agradecimento/', logout_agradecimento, name='logout_agradecimento'),
     
     # MAIN
+    path('', home_redirect, name="home_redirect"),
     path('dashboard/', dashboard, name='dashboard'),
     
     # LAUDOS

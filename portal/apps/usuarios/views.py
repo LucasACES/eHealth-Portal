@@ -37,3 +37,10 @@ def lista_usuarios(request):
     
     usuarios = User.objects.all()
     return render(request, 'usuarios/lista.html', {'usuarios': usuarios})
+
+def home_redirect(request):
+    if request.user.is_authenticated:
+        destino = 'dashboard'
+    else:
+        destino = 'login'
+    return render(request, 'usuarios/home_redirect.html', {'destino': destino})
