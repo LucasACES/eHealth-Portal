@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Agendamento | Portal eHealth{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h4 class="card-title mb-4">📅 Agende seu horário</h4>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="row">
+          {% for field in form %}
+            <div class="mb-3 col-md-6">
+              <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+              {{ field }}
+              {% if field.errors %}
+                <div class="text-danger small">{{ field.errors|striptags }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        <div class="text-end">
+          <button type="submit" class="btn btn-primary">Enviar Agendamento</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

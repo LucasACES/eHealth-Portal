@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 from apps.usuarios.views import dashboard, lista_usuarios, logout_agradecimento, acesso_negado, home_redirect
 from apps.pacientes.views import lista_pacientes, novo_paciente
 from apps.laudos.views import laudos_paciente, lista_laudos
+from apps.agendamento.views import agendar_view
 
 def superuser_required(user):
     return user.is_superuser
@@ -34,6 +35,9 @@ urlpatterns = [
 
     # USUARIOS
     path('usuarios/', lista_usuarios, name='lista_usuarios'),
+
+    # AGENDAMENTO
+    path('agenda/', include('apps.agendamento.urls')), 
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
